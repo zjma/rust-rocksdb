@@ -738,6 +738,13 @@ pub enum LogLevel {
 }
 
 impl Options {
+    /// Experimental.
+    pub fn set_wal_compression(&mut self, compression_type: DBCompressionType) {
+        unsafe {
+            ffi::rocksdb_options_set_wal_compression(self.inner, compression_type as c_int);
+        }
+    }
+
     /// Constructs the DBOptions and ColumnFamilyDescriptors by loading the
     /// latest RocksDB options file stored in the specified rocksdb database.
     pub fn load_latest<P: AsRef<Path>>(
